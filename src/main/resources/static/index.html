@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Premium Task Tracker — manage your task lists and tasks with a beautiful, modern interface.">
+    <title>Task Tracker</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <!-- Toast Container -->
+    <div id="toast-container"></div>
+
+    <!-- App Layout -->
+    <div class="app">
+
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="9 11 12 14 22 4"></polyline>
+                            <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+                        </svg>
+                    </div>
+                    <h1>TaskTracker</h1>
+                </div>
+                <button class="btn btn-icon sidebar-toggle-btn" id="sidebar-close-btn" title="Close sidebar">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+            </div>
+
+            <div class="sidebar-actions">
+                <button class="btn btn-primary btn-full" id="btn-new-task-list">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                    New List
+                </button>
+            </div>
+
+            <nav class="sidebar-nav" id="task-lists-container">
+                <div class="empty-state-sidebar" id="empty-sidebar">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.4">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>
+                    </svg>
+                    <p>No task lists yet</p>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main" id="main-content">
+            <header class="main-header">
+                <div class="main-header-left">
+                    <button class="btn btn-icon" id="sidebar-open-btn" title="Open sidebar">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+                    </button>
+                    <div id="main-title-area">
+                        <h2 id="main-title">Select a Task List</h2>
+                        <p class="main-subtitle" id="main-subtitle"></p>
+                    </div>
+                </div>
+                <div class="main-header-right" id="main-header-actions" style="display:none;">
+                    <button class="btn btn-ghost" id="btn-edit-list" title="Edit list">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
+                        Edit
+                    </button>
+                    <button class="btn btn-danger-ghost" id="btn-delete-list" title="Delete list">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                        Delete
+                    </button>
+                    <button class="btn btn-accent" id="btn-new-task">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                        Add Task
+                    </button>
+                </div>
+            </header>
+
+            <!-- Empty State (no list selected) -->
+            <div class="empty-state" id="empty-main">
+                <div class="empty-state-icon">
+                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
+                    </svg>
+                </div>
+                <h3>Welcome to TaskTracker</h3>
+                <p>Select a task list from the sidebar or create a new one to get started.</p>
+            </div>
+
+            <!-- Empty tasks state -->
+            <div class="empty-state" id="empty-tasks" style="display:none;">
+                <div class="empty-state-icon">
+                    <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+                    </svg>
+                </div>
+                <h3>No tasks yet</h3>
+                <p>Click "Add Task" to create your first task in this list.</p>
+            </div>
+
+            <!-- Tasks Container -->
+            <div class="tasks-grid" id="tasks-container"></div>
+        </main>
+    </div>
+
+    <!-- Modal: Create / Edit Task List -->
+    <div class="modal-overlay" id="modal-task-list">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 id="modal-task-list-title">New Task List</h3>
+                <button class="btn btn-icon modal-close" data-modal="modal-task-list">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+            </div>
+            <form id="form-task-list">
+                <input type="hidden" id="tl-id">
+                <div class="form-group">
+                    <label for="tl-title">Title <span class="required">*</span></label>
+                    <input type="text" id="tl-title" placeholder="e.g. Sprint Backlog" required>
+                </div>
+                <div class="form-group">
+                    <label for="tl-description">Description</label>
+                    <textarea id="tl-description" placeholder="Describe this list..." rows="3"></textarea>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-ghost modal-close" data-modal="modal-task-list">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="tl-submit-btn">Create List</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal: Create / Edit Task -->
+    <div class="modal-overlay" id="modal-task">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 id="modal-task-title">New Task</h3>
+                <button class="btn btn-icon modal-close" data-modal="modal-task">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+            </div>
+            <form id="form-task">
+                <input type="hidden" id="task-id">
+                <div class="form-group">
+                    <label for="task-title">Title <span class="required">*</span></label>
+                    <input type="text" id="task-title" placeholder="e.g. Implement login page" required>
+                </div>
+                <div class="form-group">
+                    <label for="task-description">Description</label>
+                    <textarea id="task-description" placeholder="What needs to be done..." rows="3"></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="task-due-date">Due Date</label>
+                        <input type="datetime-local" id="task-due-date">
+                    </div>
+                    <div class="form-group">
+                        <label for="task-priority">Priority</label>
+                        <select id="task-priority">
+                            <option value="LOW">Low</option>
+                            <option value="MEDIUM" selected>Medium</option>
+                            <option value="HIGH">High</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group" id="task-status-group" style="display:none;">
+                    <label for="task-status">Status</label>
+                    <select id="task-status">
+                        <option value="OPEN">Open</option>
+                        <option value="CLOSED">Closed</option>
+                    </select>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-ghost modal-close" data-modal="modal-task">Cancel</button>
+                    <button type="submit" class="btn btn-accent" id="task-submit-btn">Create Task</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Confirm Delete Modal -->
+    <div class="modal-overlay" id="modal-confirm">
+        <div class="modal modal-sm">
+            <div class="modal-header">
+                <h3 id="confirm-title">Are you sure?</h3>
+                <button class="btn btn-icon modal-close" data-modal="modal-confirm">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+            </div>
+            <p id="confirm-message" class="confirm-msg">This action cannot be undone.</p>
+            <div class="modal-actions">
+                <button class="btn btn-ghost modal-close" data-modal="modal-confirm">Cancel</button>
+                <button class="btn btn-danger" id="confirm-yes-btn">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
