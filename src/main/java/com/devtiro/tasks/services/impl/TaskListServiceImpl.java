@@ -3,6 +3,7 @@ package com.devtiro.tasks.services.impl;
 import com.devtiro.tasks.domain.entities.TaskList;
 import com.devtiro.tasks.repositories.TaskListRepository;
 import com.devtiro.tasks.services.TaskListService;
+import jakarta.transaction.Transactional;
 import org.hibernate.grammars.hql.HqlParser;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -51,6 +52,7 @@ public class TaskListServiceImpl implements TaskListService {
         return taskListRepository.findById(id);
     }
 
+    @Transactional // adding transactional if method calls repository more than once
     @Override
     public TaskList updateTaskList(UUID id, TaskList taskList) {
         if(null == taskList.getId()){

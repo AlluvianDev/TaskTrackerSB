@@ -7,6 +7,7 @@ import com.devtiro.tasks.domain.entities.TaskStatus;
 import com.devtiro.tasks.repositories.TaskListRepository;
 import com.devtiro.tasks.repositories.TaskRepository;
 import com.devtiro.tasks.services.TaskService;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -31,6 +32,7 @@ public class TaskServiceImpl implements TaskService {
         return taskRepository.findByTaskListId(TaskListId);
     }
 
+    @Transactional
     @Override
     public Task createTask(UUID taskListId, Task task) {
         if(null != task.getId()){
@@ -63,6 +65,7 @@ public class TaskServiceImpl implements TaskService {
         return taskRepository.findByTaskListIdAndId(taskListId,taskId);
     }
 
+    @Transactional
     @Override
     public Task updateTask(UUID taskListId, UUID taskId, Task task) {
         if(null == task.getId()){
@@ -89,6 +92,11 @@ public class TaskServiceImpl implements TaskService {
         existingTask.setUpdated(LocalDateTime.now());
 
         return taskRepository.save(existingTask);
+    }
+    @Transactional // ensure a delete operation happened within a database transaction, if operation fails anyhow the operation is not applied
+    @Override
+    public void deleteTask(UUID taskListId, UUID taskId) {
+        taskRepository.deleteByTaskListIdAndId(taskListId, taskId);
     }
 
 }
